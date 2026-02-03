@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet" />
+    <title>Youtube</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+
+        .container {
+            height: 450px;
+            position: relative;
+        }
+
+        #video {
+            width: 50vw;
+            border-radius: 5px;
+        }
+
+        #unmute {
+            position: absolute;
+            bottom: 40px;
+            left: 10px;
+        }
+
+        #skipbtn {
+            background-color: rgb(49, 48, 48);
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            position: absolute;
+            bottom: 40px;
+            right: 10px;
+            &:active{
+                background-color: black;
+            }
+        }
+
+        #count {
+            position: absolute;
+            bottom: 40px;
+            right: 10px;
+            color: white;
+        }
+        #unmute{
+             background-color: rgb(49, 48, 48);
+            color: white;
+            border: none;
+            padding: 5px ;
+            border-radius: 100px;
+
+        }
+        h1{
+            text-align: center;
+        }
+        h1 i{
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>YouTube <span><i class="ri-youtube-fill"></i></span></h1>
+            <video src="" autoplay muted id="video"></video>
+            <p id="count"></p>
+            <div class="btns">
+                <button id="unmute"><i class="ri-volume-mute-fill mute"></i></button>
+                <button id="skipbtn" style="display: none;">Skip Ad</button>
+            </div>
+    </div>
+
+    <script>
+        let video = document.getElementById("video")
+        let count = document.getElementById("count")
+        let skipbtn = document.getElementById("skipbtn")
+        let unmute = document.getElementById("unmute")
+        let mute = document.querySelector(".mute")
+
+
+
+
+        let addvideo = "./videos/ad.mp4"
+        let mainvideo = "./videos/doraemon.mp4"
+
+        video.src = addvideo
+
+        unmute.addEventListener("click", () => {
+            video.muted = !video.muted
+            mute.className = video.muted ? "ri-volume-mute-fill mute" : "ri-volume-up-fill mute"
+
+        })
+
+        skipbtn.addEventListener("click", () => {
+            video.src = mainvideo
+            video.muted = false
+            video.controls = true
+            skipbtn.style.display = "none"
+            unmute.style.display = "none"
+        })
+
+        video.addEventListener("ended", () => {
+            video.src = mainvideo
+            video.muted = false
+            video.controls = true
+            skipbtn.style.display = "none"
+            unmute.style.display = "none"
+            video.autoplay = false
+
+        })
+
+
+        let time = 10
+        let timer = setInterval(() => {
+            count.textContent = `You can skip add in  ${time}s`;
+            time--;
+
+            if (time < 0) {
+                count.style.display = "none"
+                skipbtn.style.display = "block"
+                clearInterval(timer)
+            }
+        }, 1000)
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
